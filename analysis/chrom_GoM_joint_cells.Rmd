@@ -16,8 +16,6 @@ knitr::read_chunk("chunks.R")
 
 **Code version:** `r workflowr::extract_commit(".", 1)$sha1`
 
-## R Markdown
-
 ```{r functions, echo=FALSE}
 library(gplots)
 library(ggplot2)
