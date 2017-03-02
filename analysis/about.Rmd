@@ -5,4 +5,4 @@ output:
     toc: false
 ---
 
-Genome annotation using genome-wide chromatin marks from ChIP-seq data
+Genome annotation using genome-wide chromatin assays
