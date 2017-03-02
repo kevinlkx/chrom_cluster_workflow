@@ -7,4 +7,4 @@ output:
 
 Genome annotation clustering using genome-wide chromatin marks from ChIP-seq data.
 
-[Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html).
+[Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html)
