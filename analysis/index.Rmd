@@ -5,6 +5,6 @@ output:
     toc: false
 ---
 
-Factor analysis results for genome annotation using genome-wide chromatin marks from ChIP-seq data.
+Genome annotation clustering using genome-wide chromatin marks from ChIP-seq data.
 
-GoM analysis results [link](chrom_GoM_joint_cells.html).
+[Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html).
