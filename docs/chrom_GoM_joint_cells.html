@@ -13,7 +13,7 @@
 
 <meta name="date" content="2017-02-28" />
 
-<title>GoM clustering on chromatin marks</title>
+<title>GoM clustering of genome locations using chromatin marks</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -302,7 +302,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">GoM clustering on chromatin marks</h1>
+<h1 class="title toc-ignore">GoM clustering of genome locations using chromatin marks</h1>
 <h4 class="author"><em>Kaixuan Luo</em></h4>
 <h4 class="date"><em>2017-02-28</em></h4>
 
@@ -310,10 +310,7 @@ div.tocify {
 
 
 <p><strong>Last updated:</strong> 2017-03-02</p>
-<p><strong>Code version:</strong> 93df609</p>
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-</div>
+<p><strong>Code version:</strong> 98d4c06</p>
 <div id="load-data" class="section level2">
 <h2>load data</h2>
 <pre><code>cell types: K562 GM12878 HUVEC NHLF </code></pre>
@@ -428,6 +425,27 @@ phrase        1    2    3    4    5    6
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Fit GoM after removing 452 empty rows 
+
+Estimating on a 17548 document collection.
+Fitting the 7 topic model.
+log posterior increase: 18079.9, 464.2, 332.9, done.
+          topic
+phrase        1    2    3    4    5    6 7
+  CTCF     0.00 0.00 0.00 0.00 0.00 0.00 1
+  H3K27me3 0.61 0.00 0.00 0.02 0.00 0.00 0
+  H3K36me3 0.00 0.00 0.00 0.00 0.00 0.90 0
+  H4K20me1 0.39 0.01 0.01 0.00 0.00 0.09 0
+  H3K4me1  0.00 0.59 0.00 0.00 0.00 0.01 0
+  H3K4me2  0.00 0.28 0.17 0.00 0.00 0.00 0
+  H3K4me3  0.00 0.00 0.04 0.98 0.00 0.00 0
+  H3K27ac  0.00 0.12 0.42 0.00 0.00 0.00 0
+  H3K9ac   0.00 0.00 0.37 0.00 0.05 0.00 0
+  Control  0.00 0.00 0.00 0.00 0.94 0.00 0</code></pre>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-11.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Fill 452 empty rows 
+structure plot </code></pre>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-12.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session Information</h2>
@@ -460,10 +478,10 @@ loaded via a namespace (and not attached):
 [28] gdata_2.17.0       limma_3.28.21      reshape2_1.4.2    
 [31] magrittr_1.5       MASS_7.3-45        backports_1.0.5   
 [34] scales_0.4.1       htmltools_0.3.5    modeltools_0.2-21 
-[37] assertthat_0.1     permute_0.9-4      ape_4.0           
-[40] picante_1.6-2      colorspace_1.3-2   KernSmooth_2.23-15
-[43] stringi_1.1.2      lazyeval_0.2.0     munsell_0.4.3     
-[46] vegan_2.4-2       </code></pre>
+[37] rsconnect_0.7      assertthat_0.1     permute_0.9-4     
+[40] ape_4.0            picante_1.6-2      colorspace_1.3-2  
+[43] KernSmooth_2.23-15 stringi_1.1.2      lazyeval_0.2.0    
+[46] munsell_0.4.3      vegan_2.4-2       </code></pre>
 </div>
 
 <hr>
