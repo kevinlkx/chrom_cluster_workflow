@@ -1,5 +1,5 @@
 ---
-title: "GoM clustering on chromatin marks"
+title: "GoM clustering of genome locations using chromatin marks"
 author: "Kaixuan Luo"
 date: 2017-02-28
 output: html_document
@@ -209,6 +209,8 @@ cluster_GoM_joint(data.m, K = 4, sample_names = cell_type_list, col_palette, clu
 cluster_GoM_joint(data.m, K = 5, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
 
 cluster_GoM_joint(data.m, K = 6, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+cluster_GoM_joint(data.m, K = 7, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
 
 ```
 
