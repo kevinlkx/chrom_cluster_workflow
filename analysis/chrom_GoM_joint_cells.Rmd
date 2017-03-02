@@ -1,0 +1,218 @@
+---
+title: "GoM clustering on chromatin marks"
+author: "Kaixuan Luo"
+date: 2017-02-28
+output: html_document
+---
+
+```{r read-chunk, include=FALSE, cache=FALSE}
+knitr::read_chunk("chunks.R")
+```
+
+```{r knitr-opts-chunk, include=FALSE}
+```
+
+**Last updated:** `r Sys.Date()`
+
+**Code version:** `r workflowr::extract_commit(".", 1)$sha1`
+
+## R Markdown
+
+## define functions
+```{r functions, echo=FALSE}
+
+library(gplots)
+library(ggplot2)
+library(CountClust)
+library(maptpx)
+library(grid)
+library(gridExtra)
+
+# Multiple plot function
+#
+# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
+# - cols:   Number of columns in layout
+# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
+#
+# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
+# then plot 1 will go in the upper left, 2 will go in the upper right, and
+# 3 will go all the way across the bottom.
+#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+
+## load data
+load_marks_data <- function(cell_type, chr_name){
+  dir_data <- paste0(dir_home, '/chrom_cluster/ENCODE_data/hg19/meancounts/', chr_name)
+  count_marks.df <- readRDS(file.path(dir_data, paste0(cell_type, '_10marks_meanChIP_hg19_200bp_bins.rds')))
+  count_marks.m <- as.matrix(count_marks.df[, marks_list])
+  return(count_marks.m)
+}
+
+## Grade of Membership model
+cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RColorBrewer::brewer.pal(8, "Accent"), cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:100){
+  
+  idx_empty <- which(rowSums(data.m) == 0)
+  data_GoM.m <-  data.m[-idx_empty, ]
+  
+  cat('Fit GoM after removing', length(idx_empty), 'empty rows \n')
+  fit.GoM <- topics(data_GoM.m, K = K)
+  
+  names(fit.GoM)
+  dim(fit.GoM$omega)
+  
+  theta_mat <- fit.GoM$theta
+  
+  print(round(theta_mat, 2))
+  
+  # top_features <- ExtractTopFeatures(theta_mat, top_features=3, method="poisson", options="max");
+  # top_feature_names <- do.call(rbind, lapply(1:dim(top_features)[1], function(x) rownames(theta_mat)[top_features[x,]]))
+  # 
+  # cat('Top features in each cluster: \n')
+  # print(top_feature_names)
+  
+  # plot theta matrix
+  my_palette_heatmap <- colorRampPalette(c("white", "blue", "darkblue"))(n = 100)
+  
+  if(cluster_heatmap){
+    heatmap.2(t(theta_mat), Rowv = F, dendrogram = 'column', col = my_palette_heatmap, margin=c(6,6), trace="none", 
+              colCol = col_marks, labRow = paste('Cluster', colnames(theta_mat)), 
+              cexCol = 0.9, cexRow = 0.9)
+  }else{
+    # par(mar = c(6,6,4,2))
+    theta_mat <- t(apply(fit.GoM$theta, 1, rev))
+    image(x = 1:nrow(theta_mat), y = 1:ncol(theta_mat), theta_mat, axes = F, col = my_palette_heatmap, xlab = '', ylab = '')
+    box()
+    axis(1, at = 1:nrow(theta_mat), labels = rownames(theta_mat), las = 2)
+    axis(2, at = 1:ncol(theta_mat), labels = paste('cluster', colnames(theta_mat)), las = 1)
+  }
+  
+  ## plot omega
+  if(fill_empty){
+    cat('Fill', length(idx_empty), 'empty rows \n')
+    omega_mat <-  matrix(0, nrow(data.m), K)
+    omega_mat[-idx_empty, ] <- fit.GoM$omega
+    omega_mat[idx_empty, ] <- 0
+    rownames(omega_mat) <- paste('row', 1:nrow(omega_mat))
+    colnames(omega_mat) <- colnames(fit.GoM$omega)
+  }else{
+    omega_mat <- fit.GoM$omega
+  }
+  
+  cat('structure plot \n')
+  
+  num_samples <- length(sample_names)
+  
+  ggpl.l <- vector('list', num_samples)
+  for(i in 1:num_samples){
+    idx_sample <- seq(nrow(data.m) / num_samples * (i-1) + 1, nrow(data.m) / num_samples * i)
+    range(idx_sample)
+    omega_mat_sample <- omega_mat[idx_sample, ]
+    
+    omega_mat_plot <- omega_mat_sample[idx_StructurePlot,]
+    
+    ggpl.l[[i]] <- StructureGGplot(omega = omega_mat_plot,
+                          # annotation = NULL,
+                          palette = col_palette,
+                          figure_title = paste(sample_names[i]), 
+                          yaxis_label = paste(nrow(omega_mat_plot), "bins (200bp) along the chromosome"),
+                          order_sample = order_sample, # order_sample == FALSE in genomic locations
+                          axis_tick = list(axis_ticks_length = .1,
+                                           axis_ticks_lwd_y = .1,
+                                           axis_ticks_lwd_x = .1,
+                                           axis_label_size = 7,
+                                           axis_label_face = "bold"))
+    
+  }
+ 
+  multiplot(plotlist = ggpl.l, cols = num_samples)
+  
+}
+
+```
+
+## load data
+
+```{r load_data, echo=FALSE}
+
+dir_home <- '~/research/'
+cell_type_list <- c('K562', 'GM12878', 'HUVEC', 'NHLF')
+
+marks_list <- c('CTCF', 'H3K27me3','H3K36me3', 'H4K20me1', 'H3K4me1', 'H3K4me2', 'H3K4me3','H3K27ac', 'H3K9ac', 'Control')
+col_marks <- c('blue',  'black', rep('darkgreen', 2), rep('red', 3), rep('orange', 2), 'darkgray')
+
+count_marks_cells.l <- vector('list', length = length(cell_type_list))
+names(count_marks_cells.l) <- cell_type_list
+
+for(cell_type in cell_type_list){
+  cat(cell_type, '\n')
+  count_marks.m <- load_marks_data(cell_type, 'chr1')
+  count_marks_cells.l[[cell_type]] <- count_marks.m[c(340361:344860),] # chr1:68,072,000-68,972,000
+}
+
+count_marks_cells.m <- do.call(rbind, count_marks_cells.l)
+
+data.m <- round(count_marks_cells.m)
+
+dim(data.m)
+
+## percent of 0's in the matrix
+cat(length(which(as.vector(data.m) == 0)) / length(as.vector(data.m)) * 100, '% zeros in the matrix')
+
+```
+
+## GoM clustering
+```{r GoM, echo=FALSE}
+
+col_palette <- RColorBrewer::brewer.pal(8, "Accent")
+# col_palette <- RColorBrewer::brewer.pal(9, "Set1")
+# col_palette <- RColorBrewer::brewer.pal(12, "Set3")
+
+cluster_GoM_joint(data.m, K = 2, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+cluster_GoM_joint(data.m, K = 3, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+cluster_GoM_joint(data.m, K = 4, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+cluster_GoM_joint(data.m, K = 5, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+```
+
+
+## Session Information
+
+```{r session-info}
+```

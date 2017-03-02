@@ -5,4 +5,4 @@ output:
     toc: false
 ---
 
-Describe your project.
+Factor model for genome annotation using genome-wide chromatin marks from ChIP-seq data
