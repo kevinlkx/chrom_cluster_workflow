@@ -1,4 +1,4 @@
-name: chrom_cluster
+name: Chrom Cluster
 output_dir: "../docs"
 include: [".nojekyll"]
 exclude: ["include"]
