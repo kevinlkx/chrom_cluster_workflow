@@ -18,9 +18,7 @@ knitr::read_chunk("chunks.R")
 
 ## R Markdown
 
-## define functions
 ```{r functions, echo=FALSE}
-
 library(gplots)
 library(ggplot2)
 library(CountClust)
@@ -165,7 +163,6 @@ cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RC
 ```
 
 ## load data
-
 ```{r load_data, echo=FALSE}
 
 dir_home <- '~/research/'
@@ -177,8 +174,9 @@ col_marks <- c('blue',  'black', rep('darkgreen', 2), rep('red', 3), rep('orange
 count_marks_cells.l <- vector('list', length = length(cell_type_list))
 names(count_marks_cells.l) <- cell_type_list
 
+cat('cell types:', cell_type_list, '\n')
 for(cell_type in cell_type_list){
-  cat(cell_type, '\n')
+  # cat(cell_type, '\n')
   count_marks.m <- load_marks_data(cell_type, 'chr1')
   count_marks_cells.l[[cell_type]] <- count_marks.m[c(340361:344860),] # chr1:68,072,000-68,972,000
 }
@@ -187,6 +185,7 @@ count_marks_cells.m <- do.call(rbind, count_marks_cells.l)
 
 data.m <- round(count_marks_cells.m)
 
+cat('data dimension \n')
 dim(data.m)
 
 ## percent of 0's in the matrix
@@ -208,6 +207,8 @@ cluster_GoM_joint(data.m, K = 3, sample_names = cell_type_list, col_palette, clu
 cluster_GoM_joint(data.m, K = 4, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
 
 cluster_GoM_joint(data.m, K = 5, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+
+cluster_GoM_joint(data.m, K = 6, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
 
 ```
 
