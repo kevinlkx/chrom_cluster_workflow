@@ -1,9 +1,9 @@
-name: Chrom Cluster
+name: chrom_cluster
 output_dir: "../docs"
 include: [".nojekyll"]
 exclude: ["include"]
 navbar:
-  title: chrom_cluster
+  title: Chrom Cluster
   left:
     - text: "Home"
       href: index.html
