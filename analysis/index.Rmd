@@ -5,6 +5,6 @@ output:
     toc: false
 ---
 
-Genome annotation clustering using genome-wide chromatin marks from ChIP-seq data.
+Genome annotation clustering using genome-wide chromatin assays
 
 [Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html)
