@@ -310,13 +310,7 @@ div.tocify {
 
 
 <p><strong>Last updated:</strong> 2017-03-05</p>
-<p><strong>Code version:</strong> 1db0ad1</p>
-<pre><code>
-Attaching package: &#39;gplots&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:stats&#39;:
-
-    lowess</code></pre>
-<pre><code>Loading required package: slam</code></pre>
+<p><strong>Code version:</strong> a175601</p>
 <div id="load-data" class="section level2">
 <h2>load data</h2>
 <pre><code>cell types: K562 GM12878 HUVEC NHLF </code></pre>
@@ -326,6 +320,8 @@ Attaching package: &#39;gplots&#39;</code></pre>
 </div>
 <div id="gom-clustering" class="section level2">
 <h2>GoM clustering</h2>
+<div id="clusters" class="section level3">
+<h3>2 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -343,10 +339,13 @@ phrase        1    2
   H3K27ac  0.00 0.22
   H3K9ac   0.03 0.13
   Control  0.14 0.02</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_2-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="clusters-1" class="section level3">
+<h3>3 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -364,10 +363,13 @@ phrase        1    2    3
   H3K27ac  0.00 0.28 0.01
   H3K9ac   0.01 0.10 0.16
   Control  0.22 0.02 0.01</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_3-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="clusters-2" class="section level3">
+<h3>4 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -385,10 +387,13 @@ phrase        1    2    3    4
   H3K27ac  0.00 0.29 0.06 0.00
   H3K9ac   0.00 0.07 0.25 0.01
   Control  0.25 0.02 0.01 0.03</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_4-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="clusters-3" class="section level3">
+<h3>5 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -406,10 +411,13 @@ phrase        1    2    3    4    5
   H3K27ac  0.00 0.29 0.11 0.00 0.00
   H3K9ac   0.00 0.04 0.30 0.01 0.00
   Control  0.25 0.02 0.00 0.13 0.02</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_5-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="clusters-4" class="section level3">
+<h3>6 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -427,10 +435,13 @@ phrase        1    2    3    4    5    6
   H3K27ac  0.00 0.30 0.10 0.00 0.00 0.00
   H3K9ac   0.00 0.05 0.28 0.01 0.07 0.00
   Control  0.00 0.00 0.00 0.00 0.85 0.00</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_6-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="clusters-5" class="section level3">
+<h3>7 clusters</h3>
 <pre><code>Fit GoM after removing 452 empty rows 
 
 Estimating on a 17548 document collection.
@@ -448,10 +459,11 @@ phrase        1    2    3    4    5    6 7
   H3K27ac  0.00 0.12 0.42 0.00 0.00 0.00 0
   H3K9ac   0.00 0.00 0.37 0.00 0.05 0.00 0
   Control  0.00 0.00 0.00 0.00 0.94 0.00 0</code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Fill 452 empty rows 
 structure plot </code></pre>
-<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_7-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session Information</h2>
