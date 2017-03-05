@@ -161,7 +161,7 @@ cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RC
 ```
 
 ## load data
-```{r load_data, echo=FALSE}
+```{r load_data, echo=FALSE, cache=T}
 
 dir_home <- '~/research/'
 cell_type_list <- c('K562', 'GM12878', 'HUVEC', 'NHLF')
@@ -192,22 +192,38 @@ cat(length(which(as.vector(data.m) == 0)) / length(as.vector(data.m)) * 100, '% 
 ```
 
 ## GoM clustering
-```{r GoM, echo=FALSE}
+### 2 clusters
+```{r GoM_2, echo=FALSE}
 
 col_palette <- RColorBrewer::brewer.pal(8, "Accent")
 # col_palette <- RColorBrewer::brewer.pal(9, "Set1")
 # col_palette <- RColorBrewer::brewer.pal(12, "Set3")
 
 cluster_GoM_joint(data.m, K = 2, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+```
 
+### 3 clusters
+```{r GoM_3, echo=FALSE}
 cluster_GoM_joint(data.m, K = 3, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+```
 
+### 4 clusters
+```{r GoM_4, echo=FALSE}
 cluster_GoM_joint(data.m, K = 4, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+```
 
+### 5 clusters
+```{r GoM_5, echo=FALSE}
 cluster_GoM_joint(data.m, K = 5, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+```
 
+### 6 clusters
+```{r GoM_6, echo=FALSE}
 cluster_GoM_joint(data.m, K = 6, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
+```
 
+### 7 clusters
+```{r GoM_7, echo=FALSE}
 cluster_GoM_joint(data.m, K = 7, sample_names = cell_type_list, col_palette, cluster_heatmap = F, order_sample = F, fill_empty = T, idx_StructurePlot = 1:(nrow(data.m)/length(cell_type_list)))
 
 ```
