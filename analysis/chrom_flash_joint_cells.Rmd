@@ -92,7 +92,7 @@ for(i in 1:length(cell_type_list)){
     loadings <- FL_loadings[idx_positionsPlot, j]
     plot(1:length(loadings), type = 'n', 
          xlab = paste(length(loadings), "genomic bins (200bp)"), ylab = '',
-         main = paste(cell_type_list[i], 'loadings', j),
+         main = paste(cell_type_list[i], 'loading', j),
          ylim = range(FL_loadings[, j]))
     points(x = c(1: length(loadings))[loadings>0], y = loadings[loadings>0], type = 'h', col = 'red')
     points(x = c(1: length(loadings))[loadings<0], y = loadings[loadings<0], type = 'h', col = 'blue')
