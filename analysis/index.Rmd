@@ -8,3 +8,5 @@ output:
 Genome annotation clustering using genome-wide chromatin assays
 
 [Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html)
+
+[FLASH analysis results](chrom_flash_joint_cells.html)

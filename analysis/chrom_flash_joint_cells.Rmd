@@ -1,0 +1,108 @@
+---
+title: "FLASH on genome-wide chromatin marks"
+author: "Kaixuan Luo"
+date: '2017-02-28'
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r read-chunk, include=FALSE, cache=FALSE}
+knitr::read_chunk("chunks.R")
+```
+
+```{r knitr-opts-chunk, include=FALSE}
+```
+
+**Last updated:** `r Sys.Date()`
+
+**Code version:** `r workflowr::extract_commit(".", 1)$sha1`
+
+## run FLASH on chr1 test data
+
+```{bash, echo = F, eval = F}
+
+## Four cell types jointly
+# Rscript ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.R backfitting
+
+cd /home/kaixuan/logs/chrom_cluster
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch greedy
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch backfitting
+
+## one singel cell type
+# Rscript ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell K562 backfitting
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch K562 backfitting
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch GM12878 backfitting
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch HUVEC backfitting
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch NHLF backfitting
+
+
+```
+
+## plot FLASH results on chr1 test data
+
+### Factors (4 cell types jointly)
+```{r flash_factors, eval = T, echo = F, fig.width=10, fig.height=2.5}
+library(flashr)
+
+flash_method <- 'backfitting'
+
+marks_list <- c('CTCF', 'H3K27me3','H3K36me3', 'H4K20me1', 'H3K4me1', 'H3K4me2', 'H3K4me3','H3K27ac', 'H3K9ac', 'Control')
+col_marks <- c('blue',  'black', rep('darkgreen', 2), rep('red', 3), rep('orange', 2), 'darkgray')
+
+cell_type_list <- c('K562', 'GM12878', 'HUVEC', 'NHLF')
+
+dir_results <- '~/research/chrom_cluster/results/flash/'
+filename_flash <- paste0(dir_results, '/FL_joint_cells_chr1_test_var_col_', flash_method, '.rds')
+
+FL_results <- readRDS(filename_flash)
+rownames(FL_results$f) <- names(FL_results$sigmae2[[1]])
+
+## factors
+par(mfrow = c(1,6))
+par(oma = c(1,1,1,1))
+par(mar = c(5,2,4,2))
+
+for(i in 1:ncol(FL_results$f)){
+  barplot(FL_results$f[,i], las = 2, main = paste('Factor', i), col = col_marks)
+}
+
+```
+
+### Loadings for each cell types
+```{r flash_loadings, eval = T, echo = F, fig.width=10, fig.height=8}
+## loadings
+idx_positionsPlot <- 1:500
+
+par(mfrow = c(4,6))
+par(oma = c(1,1,1,1))
+par(mar = c(5,2,4,2))
+
+for(i in 1:length(cell_type_list)){
+  idx_sample <- seq(nrow(FL_results$l) / length(cell_type_list) * (i-1) + 1, nrow(FL_results$l) / length(cell_type_list) * i)
+  range(idx_sample)
+  FL_loadings <- FL_results$l[idx_sample, ]
+
+  for(j in 1:ncol(FL_results$l)){
+    loadings <- FL_loadings[idx_positionsPlot, j]
+    plot(1:length(loadings), type = 'n', xlab = 'Genomic positions', ylab = '',
+         main = paste(cell_type_list[i], 'loadings', j),
+         ylim = range(FL_loadings[, j]))
+    points(x = c(1: length(loadings))[loadings>0], y = loadings[loadings>0], type = 'h', col = 'red')
+    points(x = c(1: length(loadings))[loadings<0], y = loadings[loadings<0], type = 'h', col = 'blue')
+  }
+
+}
+
+```
+
+## Session Information
+
+```{r session-info}
+```
