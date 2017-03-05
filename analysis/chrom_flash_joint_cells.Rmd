@@ -76,7 +76,8 @@ for(i in 1:ncol(FL_results$f)){
 ### Loadings for each cell types
 ```{r flash_loadings, eval = T, echo = F, fig.width=10, fig.height=8}
 ## loadings
-idx_positionsPlot <- 1:500
+idx_positionsPlot <- 1:(nrow(FL_results$l)/4)
+range(idx_positionsPlot)
 
 par(mfrow = c(4,6))
 par(oma = c(1,1,1,1))
@@ -89,7 +90,8 @@ for(i in 1:length(cell_type_list)){
 
   for(j in 1:ncol(FL_results$l)){
     loadings <- FL_loadings[idx_positionsPlot, j]
-    plot(1:length(loadings), type = 'n', xlab = 'Genomic positions', ylab = '',
+    plot(1:length(loadings), type = 'n', 
+         xlab = paste(length(loadings), "genomic bins (200bp)"), ylab = '',
          main = paste(cell_type_list[i], 'loadings', j),
          ylim = range(FL_loadings[, j]))
     points(x = c(1: length(loadings))[loadings>0], y = loadings[loadings>0], type = 'h', col = 'red')
