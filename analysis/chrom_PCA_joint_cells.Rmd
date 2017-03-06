@@ -121,42 +121,35 @@ count_marks_cells.m <- do.call(rbind, count_marks_cells.l)
 
 ## PCA K562
 ```{r PCA_K562, fig.width=8, fig.height=4}
+prcomp_marks(asinh(count_marks_cells.l[['K562']]), 'K562', center = T, scale = T, plot_scree = T)
+```
 
-cell_type <- 'K562'
-data.m <- count_marks_cells.l[[cell_type]]
-
-cat('Data dimension:', nrow(data.m), 'rows x', ncol(data.m), 'columns \n')
-
-# Inverse Hyperbolic Sine Transform
-data.m <- asinh(data.m)
-
-# cat('Not centered, not scaled \n')
-# prcomp_marks(data.m, cell_type, center = F, scale = F, plot_scree = T)
-# 
-# cat('Centered, not scaled \n')
-# prcomp_marks(data.m, cell_type, center = T, scale = F, plot_scree = T)
-
-cat('Centered and scaled \n')
-prcomp_marks(data.m, cell_type, center = T, scale = T, plot_scree = T)
+## PCA GM12878
+```{r PCA_GM12878, fig.width=8, fig.height=4}
+prcomp_marks(asinh(count_marks_cells.l[['GM12878']]), 'GM12878', center = T, scale = T, plot_scree = T)
 
 ```
 
+## PCA HUVEC
+```{r PCA_HUVEC, fig.width=8, fig.height=4}
+prcomp_marks(asinh(count_marks_cells.l[['HUVEC']]), 'HUVEC', center = T, scale = T, plot_scree = T)
+
+```
+
+## PCA NHLF
+```{r PCA_NHLF, fig.width=8, fig.height=4}
+prcomp_marks(asinh(count_marks_cells.l[['NHLF']]), 'NHLF', center = T, scale = T, plot_scree = T)
+
+```
 
 ## PCA 4 cell types jointly
 ```{r PCA_joint, fig.width=8, fig.height=4}
 
-data.m <- count_marks_cells.m
-
-cat('Data dimension:', nrow(data.m), 'rows x', ncol(data.m), 'columns \n')
-
 # Inverse Hyperbolic Sine Transform
-data.m <- asinh(data.m)
+data.m <- asinh(count_marks_cells.m)
 
-# cat('Not centered, not scaled \n')
-# prcomp_marks(data.m, '4 cell types', center = F, scale = F, plot_scree = T)
-# 
-# cat('Centered, not scaled \n')
-# prcomp_marks(data.m, '4 cell types', center = T, scale = F, plot_scree = T)
+cat('Centered, not scaled \n')
+prcomp_marks(data.m, '4 cell types', center = T, scale = F, plot_scree = T)
 
 cat('Centered and scaled \n')
 prcomp_marks(data.m, '4 cell types', center = T, scale = T, plot_scree = T)
