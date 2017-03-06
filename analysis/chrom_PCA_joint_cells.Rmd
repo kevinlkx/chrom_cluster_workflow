@@ -1,0 +1,164 @@
+---
+title: "PCA on genome-wide chromatin marks"
+author: "Kaixuan Luo"
+date: 2017-02-28
+output: html_document
+---
+
+```{r read-chunk, include=FALSE, cache=FALSE}
+knitr::read_chunk("chunks.R")
+```
+
+```{r knitr-opts-chunk, include=FALSE}
+```
+
+**Last updated:** `r Sys.Date()`
+
+**Code version:** `r workflowr::extract_commit(".", 1)$sha1`
+
+```{r functions, echo=F}
+
+## load data
+load_marks_data <- function(cell_type, chr_name, marks_list){
+  dir_data <- paste0(dir_home, '/chrom_cluster/ENCODE_data/hg19/meancounts/', chr_name)
+  count_marks.df <- readRDS(file.path(dir_data, paste0(cell_type, '_10marks_meanChIP_hg19_200bp_bins.rds')))
+  count_marks.m <- as.matrix(count_marks.df[, marks_list])
+  return(count_marks.m)
+}
+
+## PCA using princomp
+princomp_marks <- function(data_pca, cell_type, center = T, scale = F, plot_scree = F){
+  
+  ## center and scale columns
+  data_pca <- scale(data_pca, center = center, scale = scale)
+  head(data_pca, 2)
+  
+  fit <- princomp(data_pca)
+  summary(fit) # print variance accounted for 
+  loadings(fit) # pc loadings 
+  
+  if(plot_scree){
+    #  scree plot
+    # plot(fit, type="lines", main = "PCA scree plot") # scree plot
+    pr_var <- fit$sdev^2
+    plot(pr_var/sum(pr_var), main = cell_type, ylab = 'Proportion of Variance Explained', xlab = 'Principal Components', type = 'b')
+    # cumulative scree plot
+    # plot(cumsum(pr_var/sum(pr_var)), xlab = "Principal Components", ylab = "Cumulative Proportion of Variance Explained", type = "b")
+    
+  }
+  # fit$scores # the principal components
+  # biplot(fit)
+  
+  xlim <- c(min(fit$loadings[,'Comp.1'])-0.05, max(fit$loadings[,'Comp.1']) + 0.05)
+  ylim <- c(min(fit$loadings[,'Comp.2'])-0.05, max(fit$loadings[,'Comp.2']) + 0.05)
+  plot(x = fit$loadings[,'Comp.1'], y = fit$loadings[,'Comp.2'], 
+       xlim = xlim, ylim = ylim, xlab = 'PC1', ylab = 'PC2', main = paste('PCA of', cell_type, 'using', ncol(data_pca), 'marks'))
+  # text(x = fit$loadings[,'Comp.1'], y = fit$loadings[,'Comp.2'], rownames(fit$loadings), cex=0.6, pos=2, col="black")
+  text(x = fit$loadings[marks_list,'Comp.1'], y = fit$loadings[marks_list,'Comp.2'], 
+       marks_list, cex = 0.6, pos = 1, col = as.character(col_marks))
+  
+}
+
+## PCA using prcomp
+prcomp_marks <- function(data_pca, cell_type, center = T, scale = T, plot_scree = F){
+  # data_pca <- scale(data_pca, center = T, scale = T)
+  head(data_pca, 2)
+  
+  fit <- prcomp(data_pca, center = center, scale = scale)
+  
+  summary(fit) # print variance accounted for 
+  fit$rotation
+  dim(fit$x)
+  
+  if(plot_scree){
+    par(mfrow = c(1,2))
+    #  scree plot
+    # plot(fit, type="lines", main = "PCA scree plot") # scree plot
+    pr_var <- fit$sdev^2
+    prop_var <- pr_var/sum(pr_var) * 100
+    plot(prop_var, main = cell_type, ylab = 'Proportion of Variance Explained (%)', xlab = 'Principal Components', type = 'b', cex.main = 0.9)
+    # cumulative scree plot
+    # plot(cumsum(pr_var/sum(pr_var)), xlab = "Principal Components", ylab = "Cumulative Proportion of Variance Explained", type = "b")
+  }
+  
+  xlim <- c(min(fit$rotation[,'PC1'])-0.1, max(fit$rotation[,'PC1']) + 0.1)
+  ylim <- c(min(fit$rotation[,'PC2'])-0.1, max(fit$rotation[,'PC2']) + 0.1)
+  plot(x = fit$rotation[,'PC1'], y = fit$rotation[,'PC2'], 
+       xlim = xlim, ylim = ylim, 
+       xlab = paste0('PC1 (', round(prop_var[1],2), '% variance explained)'), ylab = paste0('PC2 (', round(prop_var[2],2), '% variance explained)'),
+       main = paste(ncol(data_pca), 'chromatin marks in', cell_type), cex.main = 0.9)
+  # text(x = fit$rotation[,'PC1'], y = fit$rotation[,'PC2'], rownames(fit$rotation), cex = 0.6, pos = 1, col="black")
+  text(x = fit$rotation[marks_list,'PC1'], y = fit$rotation[marks_list,'PC2'], 
+       marks_list, cex = 0.6, pos = 1, col = as.character(col_marks))
+  
+}
+
+```
+
+
+## Load data
+```{r load_data, echo=FALSE}
+dir_home <- '~/research/'
+cell_type_list <- c('K562', 'GM12878', 'HUVEC', 'NHLF')
+
+marks_list <- c('CTCF', 'H3K27me3','H3K36me3', 'H4K20me1', 'H3K4me1', 'H3K4me2', 'H3K4me3','H3K27ac', 'H3K9ac', 'Control')
+col_marks <- c('blue',  'black', rep('darkgreen', 2), rep('red', 3), rep('orange', 2), 'darkgray')
+
+count_marks_cells.l <- vector('list', length = length(cell_type_list))
+names(count_marks_cells.l) <- cell_type_list
+
+cat('cell types:', cell_type_list, '\n')
+for(cell_type in cell_type_list){
+  # cat(cell_type, '\n')
+  count_marks.m <- load_marks_data(cell_type, 'chr1', marks_list)
+  count_marks_cells.l[[cell_type]] <- count_marks.m[c(340361:344860),] # chr1:68,072,000-68,972,000
+}
+
+count_marks_cells.m <- do.call(rbind, count_marks_cells.l)
+
+```
+
+
+## PCA K562
+```{r PCA_K562, fig.width=8, fig.height=4}
+
+cell_type <- 'K562'
+data.m <- count_marks_cells.l[[cell_type]]
+
+cat('Data dimension:', nrow(data.m), 'rows x', ncol(data.m), 'columns \n')
+
+# Inverse Hyperbolic Sine Transform
+data.m <- asinh(data.m)
+
+# cat('Not centered, not scaled \n')
+# prcomp_marks(data.m, cell_type, center = F, scale = F, plot_scree = T)
+# 
+# cat('Centered, not scaled \n')
+# prcomp_marks(data.m, cell_type, center = T, scale = F, plot_scree = T)
+
+cat('Centered and scaled \n')
+prcomp_marks(data.m, cell_type, center = T, scale = T, plot_scree = T)
+
+```
+
+
+## PCA 4 cell types jointly
+```{r PCA_joint, fig.width=8, fig.height=4}
+
+data.m <- count_marks_cells.m
+
+cat('Data dimension:', nrow(data.m), 'rows x', ncol(data.m), 'columns \n')
+
+# Inverse Hyperbolic Sine Transform
+data.m <- asinh(data.m)
+
+# cat('Not centered, not scaled \n')
+# prcomp_marks(data.m, '4 cell types', center = F, scale = F, plot_scree = T)
+# 
+# cat('Centered, not scaled \n')
+# prcomp_marks(data.m, '4 cell types', center = T, scale = F, plot_scree = T)
+
+cat('Centered and scaled \n')
+prcomp_marks(data.m, '4 cell types', center = T, scale = T, plot_scree = T)
+
+```

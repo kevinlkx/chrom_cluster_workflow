@@ -29,6 +29,11 @@ sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch
 
 sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch backfitting
 
+## no control
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch greedy no_control
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_joint_cells.sbatch backfitting no_control
+
 ## one singel cell type
 # Rscript ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell K562 backfitting
 
@@ -39,6 +44,15 @@ sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch GM1287
 sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch HUVEC backfitting
 
 sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch NHLF backfitting
+
+## no control
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch K562 backfitting no_control
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch GM12878 backfitting no_control
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch HUVEC backfitting no_control
+
+sbatch ~/projects/chrom_cluster/workflow/code/run_chrom_flash_cell.sbatch NHLF backfitting no_control
 
 
 ```

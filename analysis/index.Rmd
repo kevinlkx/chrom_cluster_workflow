@@ -5,8 +5,18 @@ output:
     toc: false
 ---
 
-Genome annotation clustering using genome-wide chromatin assays
+## Genome annotation clustering using genome-wide chromatin assays
 
-* [Grade of Membership (GoM) analysis results](chrom_GoM_joint_cells.html)
+### PCA
+#### 4 cell types jointly
+* [PCA results (10 assays)](chrom_PCA_joint_cells.html)
 
-* [FLASH analysis results](chrom_flash_joint_cells.html)
+### Grade of Membership (GoM)
+#### 4 cell types jointly
+* [Grade of Membership (GoM) results (10 assays)](chrom_GoM_joint_cells.html)
+
+* [Grade of Membership (GoM) results (9 assays, without control)](chrom_GoM_joint_cells_9marks.html)
+
+### FLASH
+#### 4 cell types jointly
+* [FLASH results (10 assays)](chrom_flash_joint_cells.html)

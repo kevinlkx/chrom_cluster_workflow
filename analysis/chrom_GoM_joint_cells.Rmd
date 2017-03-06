@@ -23,6 +23,7 @@ library(CountClust)
 library(maptpx)
 library(grid)
 library(gridExtra)
+source("../code/StructureGGplot_hori.R")
 
 # Multiple plot function
 #
@@ -71,7 +72,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 ## load data
-load_marks_data <- function(cell_type, chr_name){
+load_marks_data <- function(cell_type, chr_name, marks_list){
   dir_data <- paste0(dir_home, '/chrom_cluster/ENCODE_data/hg19/meancounts/', chr_name)
   count_marks.df <- readRDS(file.path(dir_data, paste0(cell_type, '_10marks_meanChIP_hg19_200bp_bins.rds')))
   count_marks.m <- as.matrix(count_marks.df[, marks_list])
@@ -118,7 +119,7 @@ cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RC
   
   ## plot omega
   if(fill_empty){
-    cat('Fill', length(idx_empty), 'empty rows \n')
+    # cat('Fill', length(idx_empty), 'empty rows \n')
     omega_mat <-  matrix(0, nrow(data.m), K)
     omega_mat[-idx_empty, ] <- fit.GoM$omega
     omega_mat[idx_empty, ] <- 0
@@ -128,7 +129,7 @@ cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RC
     omega_mat <- fit.GoM$omega
   }
   
-  cat('structure plot \n')
+  cat('Structure plot \n')
   
   num_samples <- length(sample_names)
   
@@ -140,22 +141,23 @@ cluster_GoM_joint <- function(data.m, K = 5, sample_names = '', col_palette = RC
     
     omega_mat_plot <- omega_mat_sample[idx_StructurePlot,]
     
-    ggpl.l[[i]] <- StructureGGplot(omega = omega_mat_plot,
-                          # annotation = NULL,
-                          palette = col_palette,
-                          figure_title = paste(sample_names[i]), 
-                          yaxis_label = paste(nrow(omega_mat_plot), "bins (200bp) along the chromosome"),
-                          order_sample = order_sample, # order_sample == FALSE in genomic locations
-                          axis_tick = list(axis_ticks_length = .1,
-                                           axis_ticks_lwd_y = .1,
-                                           axis_ticks_lwd_x = .1,
-                                           axis_label_size = 7,
-                                           axis_label_face = "bold"))
+    ## horizontal Structure GGplot
+    ggpl.l[[i]] <- StructureGGplot_hori(omega = omega_mat_plot,
+                                        # annotation = NULL,
+                                        palette = col_palette,
+                                        figure_title = paste(sample_names[i]), 
+                                        yaxis_label = paste(nrow(omega_mat_plot), "bins (200bp) along the chromosome"),
+                                        order_sample = order_sample, # order_sample == FALSE in genomic locations
+                                        axis_tick = list(axis_ticks_length = .1,
+                                                         axis_ticks_lwd_y = .1,
+                                                         axis_ticks_lwd_x = .1,
+                                                         axis_label_size = 7,
+                                                         axis_label_face = "bold"))
     
   }
- 
-  multiplot(plotlist = ggpl.l, cols = num_samples)
   
+  multiplot(plotlist = ggpl.l, cols = 1)
+
 }
 
 ```
@@ -175,7 +177,7 @@ names(count_marks_cells.l) <- cell_type_list
 cat('cell types:', cell_type_list, '\n')
 for(cell_type in cell_type_list){
   # cat(cell_type, '\n')
-  count_marks.m <- load_marks_data(cell_type, 'chr1')
+  count_marks.m <- load_marks_data(cell_type, 'chr1', marks_list)
   count_marks_cells.l[[cell_type]] <- count_marks.m[c(340361:344860),] # chr1:68,072,000-68,972,000
 }
 
@@ -183,8 +185,7 @@ count_marks_cells.m <- do.call(rbind, count_marks_cells.l)
 
 data.m <- round(count_marks_cells.m)
 
-cat('data dimension \n')
-dim(data.m)
+cat('Data dimension:', nrow(data.m), 'rows x', ncol(data.m), 'columns \n')
 
 ## percent of 0's in the matrix
 cat(length(which(as.vector(data.m) == 0)) / length(as.vector(data.m)) * 100, '% zeros in the matrix')
