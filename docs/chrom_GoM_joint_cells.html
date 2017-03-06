@@ -309,13 +309,12 @@ div.tocify {
 </div>
 
 
-<p><strong>Last updated:</strong> 2017-03-05</p>
-<p><strong>Code version:</strong> a175601</p>
+<p><strong>Last updated:</strong> 2017-03-06</p>
+<p><strong>Code version:</strong> 3900d8c</p>
 <div id="load-data" class="section level2">
 <h2>load data</h2>
 <pre><code>cell types: K562 GM12878 HUVEC NHLF </code></pre>
-<pre><code>data dimension </code></pre>
-<pre><code>[1] 18000    10</code></pre>
+<pre><code>Data dimension: 18000 rows x 10 columns </code></pre>
 <pre><code>53.1 % zeros in the matrix</code></pre>
 </div>
 <div id="gom-clustering" class="section level2">
@@ -340,8 +339,7 @@ phrase        1    2
   H3K9ac   0.03 0.13
   Control  0.14 0.02</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_2-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clusters-1" class="section level3">
@@ -364,8 +362,7 @@ phrase        1    2    3
   H3K9ac   0.01 0.10 0.16
   Control  0.22 0.02 0.01</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_3-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clusters-2" class="section level3">
@@ -388,8 +385,7 @@ phrase        1    2    3    4
   H3K9ac   0.00 0.07 0.25 0.01
   Control  0.25 0.02 0.01 0.03</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_4-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clusters-3" class="section level3">
@@ -412,8 +408,7 @@ phrase        1    2    3    4    5
   H3K9ac   0.00 0.04 0.30 0.01 0.00
   Control  0.25 0.02 0.00 0.13 0.02</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_5-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clusters-4" class="section level3">
@@ -436,8 +431,7 @@ phrase        1    2    3    4    5    6
   H3K9ac   0.00 0.05 0.28 0.01 0.07 0.00
   Control  0.00 0.00 0.00 0.00 0.85 0.00</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_6-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clusters-5" class="section level3">
@@ -460,8 +454,7 @@ phrase        1    2    3    4    5    6 7
   H3K9ac   0.00 0.00 0.37 0.00 0.05 0.00 0
   Control  0.00 0.00 0.00 0.00 0.94 0.00 0</code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Fill 452 empty rows 
-structure plot </code></pre>
+<pre><code>Structure plot </code></pre>
 <p><img src="figure/chrom_GoM_joint_cells.Rmd/GoM_7-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -480,13 +473,13 @@ attached base packages:
 [8] base     
 
 other attached packages:
-[1] gridExtra_2.2.1  maptpx_1.9-2     slam_0.1-40      CountClust_0.1.2
-[5] ggplot2_2.2.1    gplots_3.0.1     workflowr_0.3.0  rmarkdown_1.3   
-[9] flashr_0.1.1    
+[1] flashr_0.1.1     workflowr_0.3.0  rmarkdown_1.3    gridExtra_2.2.1 
+[5] maptpx_1.9-2     slam_0.1-40      gplots_3.0.1     CountClust_0.1.2
+[9] ggplot2_2.2.1   
 
 loaded via a namespace (and not attached):
- [1] gtools_3.5.0       modeltools_0.2-21  ashr_2.1.5        
- [4] reshape2_1.4.2     lattice_0.20-34    colorspace_1.3-2  
+ [1] gtools_3.5.0       modeltools_0.2-21  reshape2_1.4.2    
+ [4] ashr_2.1.5         lattice_0.20-34    colorspace_1.3-2  
  [7] htmltools_0.3.5    stats4_3.3.2       yaml_2.1.14       
 [10] mgcv_1.8-16        RColorBrewer_1.1-2 foreach_1.4.3     
 [13] plyr_1.8.4         stringr_1.2.0      munsell_0.4.3     
@@ -494,10 +487,10 @@ loaded via a namespace (and not attached):
 [19] evaluate_0.10      knitr_1.15.1       permute_0.9-4     
 [22] doParallel_1.0.10  pscl_1.4.9         flexmix_2.3-13    
 [25] parallel_3.3.2     Rcpp_0.12.9        KernSmooth_2.23-15
-[28] scales_0.4.1       backports_1.0.5    gdata_2.17.0      
-[31] limma_3.28.21      vegan_2.4-2        truncnorm_1.0-7   
+[28] scales_0.4.1       backports_1.0.5    limma_3.28.21     
+[31] gdata_2.17.0       vegan_2.4-2        truncnorm_1.0-7   
 [34] picante_1.6-2      digest_0.6.12      stringi_1.1.2     
-[37] rprojroot_1.2      cowplot_0.7.0      tools_3.3.2       
+[37] cowplot_0.7.0      rprojroot_1.2      tools_3.3.2       
 [40] bitops_1.0-6       magrittr_1.5       lazyeval_0.2.0    
 [43] tibble_1.2         cluster_2.0.5      ape_4.0           
 [46] MASS_7.3-45        Matrix_1.2-8       SQUAREM_2016.8-2  
