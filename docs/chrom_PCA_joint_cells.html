@@ -310,51 +310,44 @@ div.tocify {
 
 
 <p><strong>Last updated:</strong> 2017-03-06</p>
-<p><strong>Code version:</strong> 3900d8c</p>
+<p><strong>Code version:</strong> cffa1a3</p>
 <div id="load-data" class="section level2">
 <h2>Load data</h2>
 <pre><code>cell types: K562 GM12878 HUVEC NHLF </code></pre>
 </div>
 <div id="pca-k562" class="section level2">
 <h2>PCA K562</h2>
-<pre class="r"><code>cell_type &lt;- &#39;K562&#39;
-data.m &lt;- count_marks_cells.l[[cell_type]]
-
-cat(&#39;Data dimension:&#39;, nrow(data.m), &#39;rows x&#39;, ncol(data.m), &#39;columns \n&#39;)</code></pre>
-<pre><code>Data dimension: 4500 rows x 10 columns </code></pre>
-<pre class="r"><code># Inverse Hyperbolic Sine Transform
-data.m &lt;- asinh(data.m)
-
-# cat(&#39;Not centered, not scaled \n&#39;)
-# prcomp_marks(data.m, cell_type, center = F, scale = F, plot_scree = T)
-# 
-# cat(&#39;Centered, not scaled \n&#39;)
-# prcomp_marks(data.m, cell_type, center = T, scale = F, plot_scree = T)
-
-cat(&#39;Centered and scaled \n&#39;)</code></pre>
-<pre><code>Centered and scaled </code></pre>
-<pre class="r"><code>prcomp_marks(data.m, cell_type, center = T, scale = T, plot_scree = T)</code></pre>
+<pre class="r"><code>prcomp_marks(asinh(count_marks_cells.l[[&#39;K562&#39;]]), &#39;K562&#39;, center = T, scale = T, plot_scree = T)</code></pre>
 <p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_K562-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca-gm12878" class="section level2">
+<h2>PCA GM12878</h2>
+<pre class="r"><code>prcomp_marks(asinh(count_marks_cells.l[[&#39;GM12878&#39;]]), &#39;GM12878&#39;, center = T, scale = T, plot_scree = T)</code></pre>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_GM12878-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca-huvec" class="section level2">
+<h2>PCA HUVEC</h2>
+<pre class="r"><code>prcomp_marks(asinh(count_marks_cells.l[[&#39;HUVEC&#39;]]), &#39;HUVEC&#39;, center = T, scale = T, plot_scree = T)</code></pre>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_HUVEC-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca-nhlf" class="section level2">
+<h2>PCA NHLF</h2>
+<pre class="r"><code>prcomp_marks(asinh(count_marks_cells.l[[&#39;NHLF&#39;]]), &#39;NHLF&#39;, center = T, scale = T, plot_scree = T)</code></pre>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_NHLF-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="pca-4-cell-types-jointly" class="section level2">
 <h2>PCA 4 cell types jointly</h2>
-<pre class="r"><code>data.m &lt;- count_marks_cells.m
-
-cat(&#39;Data dimension:&#39;, nrow(data.m), &#39;rows x&#39;, ncol(data.m), &#39;columns \n&#39;)</code></pre>
-<pre><code>Data dimension: 18000 rows x 10 columns </code></pre>
 <pre class="r"><code># Inverse Hyperbolic Sine Transform
-data.m &lt;- asinh(data.m)
+data.m &lt;- asinh(count_marks_cells.m)
 
-# cat(&#39;Not centered, not scaled \n&#39;)
-# prcomp_marks(data.m, &#39;4 cell types&#39;, center = F, scale = F, plot_scree = T)
-# 
-# cat(&#39;Centered, not scaled \n&#39;)
-# prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = F, plot_scree = T)
-
-cat(&#39;Centered and scaled \n&#39;)</code></pre>
+cat(&#39;Centered, not scaled \n&#39;)</code></pre>
+<pre><code>Centered, not scaled </code></pre>
+<pre class="r"><code>prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = F, plot_scree = T)</code></pre>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cat(&#39;Centered and scaled \n&#39;)</code></pre>
 <pre><code>Centered and scaled </code></pre>
 <pre class="r"><code>prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = T, plot_scree = T)</code></pre>
-<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-2.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 
 <hr>
