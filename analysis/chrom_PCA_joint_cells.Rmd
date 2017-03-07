@@ -148,10 +148,13 @@ prcomp_marks(asinh(count_marks_cells.l[['NHLF']]), 'NHLF', center = T, scale = T
 # Inverse Hyperbolic Sine Transform
 data.m <- asinh(count_marks_cells.m)
 
-cat('Centered, not scaled \n')
+# Not centered, not scaled
+prcomp_marks(data.m, '4 cell types', center = F, scale = F, plot_scree = T)
+
+# Centered, not scaled
 prcomp_marks(data.m, '4 cell types', center = T, scale = F, plot_scree = T)
 
-cat('Centered and scaled \n')
+# Centered and scaled
 prcomp_marks(data.m, '4 cell types', center = T, scale = T, plot_scree = T)
 
 ```
