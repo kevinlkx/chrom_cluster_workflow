@@ -20,3 +20,7 @@ output:
 ### FLASH
 #### 4 cell types jointly
 * [FLASH results (10 assays)](chrom_flash_joint_cells.html)
+
+### ChromHMM
+#### 4 cell types jointly
+* [ChromHMM results (10 assays)](chrom_ChromHMM_joint_cells.html)
