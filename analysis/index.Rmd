@@ -7,20 +7,20 @@ output:
 
 ## Genome annotation clustering using genome-wide chromatin assays
 
+### ChromHMM
+#### 4 cell types jointly (train on whole genome)
+* [ChromHMM results (10 assays)](chrom_ChromHMM_joint_cells.html)
+
 ### PCA
-#### 4 cell types jointly
+#### 4 cell types jointly (4500 bins, 900,000bp)
 * [PCA results (10 assays)](chrom_PCA_joint_cells.html)
 
-### Grade of Membership (GoM)
-#### 4 cell types jointly
-* [Grade of Membership (GoM) results (10 assays)](chrom_GoM_joint_cells.html)
-
-* [Grade of Membership (GoM) results (9 assays, without control)](chrom_GoM_joint_cells_9marks.html)
-
 ### FLASH
-#### 4 cell types jointly
+#### 4 cell types jointly (4500 bins, 900,000bp)
 * [FLASH results (10 assays)](chrom_flash_joint_cells.html)
 
-### ChromHMM
-#### 4 cell types jointly
-* [ChromHMM results (10 assays)](chrom_ChromHMM_joint_cells.html)
+### Grade of Membership (GoM)
+#### 4 cell types jointly (4500 bins, 900,000bp)
+* [Grade of Membership (GoM) results (10 assays)](chrom_GoM_joint_cells.html)
+
+

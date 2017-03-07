@@ -191,38 +191,49 @@ extract_ChromHMM_region <- function(cell_type, chr_region, start_region, end_reg
   segments_region.df <- segments_region.df[segments_region.df$start >= start_region & segments_region.df$end <= end_region,]
   
   segments_region.df$state <- as.integer(gsub('E', '', segments_region.df$state))
-  cat(nrow(segments_region.df), 'rows \n')
+  # cat(nrow(segments_region.df), 'rows \n')
   
   return(segments_region.df)
 }
 
-plot_segments_ChromHMM <- function(segments_region.df, cell_type, num_states, col_palette, flip_strand = F){
+plot_segments_ChromHMM <- function(segments_cell.l, cell_type_list, num_states, col_palette, flip_strand = F, legend_positions = NULL){
   
-  states <- segments_region.df$state
+  ggpl.l <- vector('list', length(cell_type_list))
+  names(ggpl.l) <- cell_type_list
   
-  if(flip_strand){
-    states <- rev(states)
+  for(i in 1:length(cell_type_list)){
+    cell_type <- cell_type_list[i]
+    segments_region.df <- segments_cell.l[[cell_type]]
+    states <- segments_region.df$state
+    
+    if(flip_strand){
+      states <- rev(states)
+    }
+    
+    states.m <- matrix(0, ncol = num_states, nrow = length(states))
+    rownames(states.m) <- segments_region.df$start
+    for(i in 1:nrow(states.m)){
+      states.m[i, states[i]] <- 1
+    }
+    
+    ggpl.l[[cell_type]] <- StructureGGplot_hori(omega = states.m,
+                                                # annotation = NULL,
+                                                palette = col_palette,
+                                                figure_title = paste(cell_type), 
+                                                yaxis_label = paste(nrow(states.m), "bins (200bp) along the chromosome"),
+                                                order_sample = FALSE, # order_sample == FALSE in genomic locations
+                                                axis_tick = list(axis_ticks_length = .1,
+                                                                 axis_ticks_lwd_y = .1,
+                                                                 axis_ticks_lwd_x = .1,
+                                                                 axis_label_size = 7,
+                                                                 axis_label_face = "bold"),
+                                                legend_position = "none")
   }
   
-  states.m <- matrix(0, ncol = num_states, nrow = length(states))
-  rownames(states.m) <- segments_region.df$start
-  for(i in 1:nrow(states.m)){
-    states.m[i, states[i]] <- 1
-  }
   
+  multiplot(plotlist = ggpl.l, cols = 1)
   
-  ggpl <- StructureGGplot_hori(omega = states.m,
-                               # annotation = NULL,
-                               palette = col_palette,
-                               figure_title = paste(cell_type), 
-                               yaxis_label = paste(nrow(states.m), "bins (200bp) along the chromosome"),
-                               order_sample = FALSE, # order_sample == FALSE in genomic locations
-                               axis_tick = list(axis_ticks_length = .1,
-                                                axis_ticks_lwd_y = .1,
-                                                axis_ticks_lwd_x = .1,
-                                                axis_label_size = 7,
-                                                axis_label_face = "bold"))
-  return(ggpl)
+  return(ggpl.l)
 }
 
 ```
@@ -235,9 +246,8 @@ dir_data <- '~/research/chrom_cluster/ChromHMM/results/all_4cells/'
 segments_cell.l <- vector('list', length(cell_type_list))
 names(segments_cell.l) <- cell_type_list
 for(cell_type in cell_type_list){
-  cat(cell_type, '\n')
   segments_cell.l[[cell_type]] <- extract_ChromHMM_region(cell_type, 'chr1', start_region = 68072000, end_region = 68972000, num_states = 15, dir_data)
-  
+  cat(cell_type, '\t', nrow(segments_cell.l[[cell_type]]),'rows \n')
 }
 
 ```
@@ -245,17 +255,11 @@ for(cell_type in cell_type_list){
 ## plot ChromHMM states
 ```{r plot_states, echo=FALSE}
 
-col_palette <- c('cyan', 'lightgray', 'lightgray', 'darkgray', 'purple', 
+col_palette <- c('skyblue', 'lightgray', 'lightgray', 'darkgray', 'purple', 
                  'pink', 'pink','red', 'orange', 'orange',
                  'yellow','green', 'green', 'lightgray', 'lightgreen')
 
-ggpl.l <- vector('list', length(cell_type_list))
-names(ggpl.l) <- cell_type_list
-for(cell_type in cell_type_list){
-  ggpl.l[[cell_type]] <- plot_segments_ChromHMM(segments_cell.l[[cell_type]], cell_type, num_states = 15, col_palette, flip_strand = FALSE)
-}
-
-multiplot(plotlist = ggpl.l, cols = 1)
+ggpl.l <- plot_segments_ChromHMM(segments_cell.l, cell_type_list, num_states = 15, col_palette, flip_strand = TRUE)
 
 ```
 ## Session Information
