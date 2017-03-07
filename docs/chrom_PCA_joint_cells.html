@@ -309,8 +309,8 @@ div.tocify {
 </div>
 
 
-<p><strong>Last updated:</strong> 2017-03-06</p>
-<p><strong>Code version:</strong> cffa1a3</p>
+<p><strong>Last updated:</strong> 2017-03-07</p>
+<p><strong>Code version:</strong> 39c0e59</p>
 <div id="load-data" class="section level2">
 <h2>Load data</h2>
 <pre><code>cell types: K562 GM12878 HUVEC NHLF </code></pre>
@@ -340,14 +340,15 @@ div.tocify {
 <pre class="r"><code># Inverse Hyperbolic Sine Transform
 data.m &lt;- asinh(count_marks_cells.m)
 
-cat(&#39;Centered, not scaled \n&#39;)</code></pre>
-<pre><code>Centered, not scaled </code></pre>
-<pre class="r"><code>prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = F, plot_scree = T)</code></pre>
+# Not centered, not scaled
+prcomp_marks(data.m, &#39;4 cell types&#39;, center = F, scale = F, plot_scree = T)</code></pre>
 <p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-1.png" width="768" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cat(&#39;Centered and scaled \n&#39;)</code></pre>
-<pre><code>Centered and scaled </code></pre>
-<pre class="r"><code>prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = T, plot_scree = T)</code></pre>
+<pre class="r"><code># Centered, not scaled
+prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = F, plot_scree = T)</code></pre>
 <p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Centered and scaled
+prcomp_marks(data.m, &#39;4 cell types&#39;, center = T, scale = T, plot_scree = T)</code></pre>
+<p><img src="figure/chrom_PCA_joint_cells.Rmd/PCA_joint-3.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 
 <hr>
